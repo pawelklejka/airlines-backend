@@ -17,8 +17,6 @@ public class TouristServiceImplementation implements TouristService {
     @Autowired
     TouristRepository touristRepository;
 
-
-
     @Autowired
     DateParserService dateParserService;
 

@@ -7,6 +7,7 @@ import com.example.airlines.model.Tourist;
 import com.example.airlines.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -57,7 +58,7 @@ public class FlightController {
     }
 
     @PutMapping("/{id}")
-    public void updateFlight(@PathVariable("id") Long id, @Valid @RequestBody FlightDTO flightDTO){
+    public void update(@PathVariable("id") Long id, @Valid @RequestBody FlightDTO flightDTO){
 
         flightService.updateFlight(id, flightDTO);
     }

@@ -39,8 +39,8 @@ public class Tourist {
     private String country;
 
     @Column(name = "TOURIST_DATE_OF_BIRTH")
-    @DateTimeFormat(pattern = "dd-MM-yyyy", style = "S")
-    @JsonFormat(pattern = "dd-MM-YYYY")
+    @DateTimeFormat(pattern = "yyyy-MM-dd", style = "S")
+    @JsonFormat(pattern = "YYYY-MM-dd")
     @NotNull
     private LocalDate dateOfBirth;
 

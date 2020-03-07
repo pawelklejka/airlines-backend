@@ -50,7 +50,7 @@ public class TouristController {
     }
 
     @PutMapping("/{id}")
-    public void updateTourist(@PathVariable("id") Long id, @Valid @RequestBody TouristDTO touristDTO){
+    public void update(@PathVariable("id") Long id, @Valid @RequestBody TouristDTO touristDTO){
         touristService.updateTourist(id, touristDTO);
 
     }
