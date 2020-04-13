@@ -22,6 +22,10 @@
           <option name="url" value="https://github.com/pawelklejka/airlines-backend.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://git.devskiller.com/16fd813e-bccd-4c74-85f3-1248f7967ac0.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\Pawel\IdeaProjects" />
