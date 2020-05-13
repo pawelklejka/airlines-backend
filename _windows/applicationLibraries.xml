@@ -1,0 +1,13 @@
+<application>
+  <component name="libraryTable">
+    <library name="stdlib">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/stdlib.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/stdlib.jar!/" />
+      </SOURCES>
+    </library>
+  </component>
+</application>
