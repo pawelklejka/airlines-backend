@@ -1,7 +1,6 @@
 package com.example.airlines.service;
 
-import com.example.airlines.DemoApplication;
-import com.example.airlines.service.DateParserService;
+import com.DemoApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

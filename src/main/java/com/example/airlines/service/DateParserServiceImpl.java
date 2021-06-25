@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
-public class DateParserServiceImplementation implements DateParserService{
+public class DateParserServiceImpl implements DateParserService{
 
     @Override
     public LocalDateTime parseDateTimeFromString(String date) {

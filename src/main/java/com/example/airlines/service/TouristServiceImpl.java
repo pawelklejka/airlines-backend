@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service("touristService")
-public class TouristServiceImplementation implements TouristService {
+public class TouristServiceImpl implements TouristService {
     @Autowired
     TouristRepository touristRepository;
 
@@ -70,7 +70,7 @@ public class TouristServiceImplementation implements TouristService {
     @Override
     public void deleteFlightFromTourist(Long touristId, Long flightId) {
         Tourist currentTourist = touristRepository.findById(touristId).get();
-        currentTourist.getFligths().remove(flightId);
+        currentTourist.getFlights().remove(flightId);
         touristRepository.save(currentTourist);
     }
 

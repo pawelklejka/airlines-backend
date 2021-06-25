@@ -2,7 +2,7 @@ package com.example.airlines.controller;
 
 import com.example.airlines.DTO.FlightDTO;
 import com.example.airlines.DTO.TouristDTO;
-import com.example.airlines.DemoApplication;
+import com.DemoApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -17,8 +17,6 @@ import java.nio.charset.Charset;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = DemoApplication.class)
 @AutoConfigureMockMvc

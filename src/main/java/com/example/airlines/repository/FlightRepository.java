@@ -13,9 +13,9 @@ import java.util.List;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
-//    @Query("select f from Flight f where startingDestination like %?1%")
+//    @Query("select f from Flight f where f.startingDestination like %?1%")
 //    Page<Flight> findByStartingDestination(String startingDestination, Pageable pageable);
-//
+
     Page<Flight> findFlightByStartingDestinationStartsWith(String startingDestination, Pageable pageable);
 
 }

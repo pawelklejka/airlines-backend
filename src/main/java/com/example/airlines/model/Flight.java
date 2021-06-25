@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Profile("flightControllerWebTest")
+//@Profile("flightControllerWebTest")
 @Entity
 public class Flight {
     @Id

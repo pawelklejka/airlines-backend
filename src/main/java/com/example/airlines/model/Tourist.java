@@ -103,11 +103,11 @@ public class Tourist {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Map<Long, Flight> getFligths() {
+    public Map<Long, Flight> getFlights() {
         return flights;
     }
 
-    public void setFligths(Map<Long, Flight> flights) {
+    public void setFlights(Map<Long, Flight> flights) {
         this.flights = flights;
     }
 
