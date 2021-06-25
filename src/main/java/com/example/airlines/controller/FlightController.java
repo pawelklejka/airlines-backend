@@ -5,16 +5,20 @@ import com.example.airlines.DTO.TouristDTO;
 import com.example.airlines.model.Flight;
 import com.example.airlines.model.Tourist;
 import com.example.airlines.service.FlightService;
+import com.google.common.base.Functions;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -27,11 +31,14 @@ public class FlightController {
     @GetMapping("/searchByDestination")
     public Page<Flight> findByStartingDestination(@RequestParam Optional<String> name,
                                                   @RequestParam Optional<Integer> page){
-        return flightService.findByStartingDestination(name.orElse("_"), PageRequest.of(page.orElse(0), 2, Sort.by("startingDestination").and(Sort.by("flightStartingTime"))));
+        return flightService.findByStartingDestination(
+                name.orElse("_"),
+                PageRequest.of(page.orElse(0), 2, Sort.by("startingDestination").and(Sort.by("flightStartingTime"))));
     }
 
     @GetMapping("/all")
     public Page<Flight> findAll(@RequestParam Optional<Integer> page){
+
         return flightService.findAll(PageRequest.of(page.orElse(0), 21, Sort.by("startingDestination").and(Sort.by("flightStartingTime"))));
     }
 
@@ -57,7 +64,7 @@ public class FlightController {
     }
 
     @PutMapping("/{id}")
-    public void updateFlight(@PathVariable("id") Long id, @Valid @RequestBody FlightDTO flightDTO){
+    public void update(@PathVariable("id") Long id, @Valid @RequestBody FlightDTO flightDTO){
 
         flightService.updateFlight(id, flightDTO);
     }

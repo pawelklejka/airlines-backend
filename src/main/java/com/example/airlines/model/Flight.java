@@ -3,6 +3,7 @@ package com.example.airlines.model;
 import com.example.airlines.DTO.TouristDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.context.annotation.Profile;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//@Profile("flightControllerWebTest")
 @Entity
 public class Flight {
     @Id
@@ -26,14 +28,14 @@ public class Flight {
     private String startingDestination;
 
     @Column(name = "FLIGHT_STARTING_TIME")
-    @DateTimeFormat(pattern = "yyy-MM-ddThh:mm")
-    @JsonFormat(pattern = "dd-MM-YYYY HH:mm")
+    @DateTimeFormat(pattern = "yyy-MM-dd hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @NotNull
     private LocalDateTime flightStartingTime;
 
     @Column(name = "FLIGHT_ARRIVAL_TIME")
-    @DateTimeFormat(pattern = "yyy-MM-ddThh:mm")
-    @JsonFormat(pattern = "dd-MM-YYYY HH:mm")
+    @DateTimeFormat(pattern = "yyy-MM-dd hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @NotNull
     private LocalDateTime flightArrivalTime;
 
@@ -48,7 +50,7 @@ public class Flight {
 
     @Column(name = "FLIGHT_PRICE")
     @NotNull
-    @DecimalMin(value = "00.00")
+    @DecimalMin(value = "100.00")
     private BigDecimal price;
 
     public Flight(){

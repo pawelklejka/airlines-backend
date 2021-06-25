@@ -39,8 +39,8 @@ public class Tourist {
     private String country;
 
     @Column(name = "TOURIST_DATE_OF_BIRTH")
-    @DateTimeFormat(pattern = "dd-MM-yyyy", style = "S")
-    @JsonFormat(pattern = "dd-MM-YYYY")
+    @DateTimeFormat(pattern = "yyyy-MM-dd", style = "S")
+    @JsonFormat(pattern = "YYYY-MM-dd")
     @NotNull
     private LocalDate dateOfBirth;
 
@@ -103,11 +103,11 @@ public class Tourist {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Map<Long, Flight> getFligths() {
+    public Map<Long, Flight> getFlights() {
         return flights;
     }
 
-    public void setFligths(Map<Long, Flight> flights) {
+    public void setFlights(Map<Long, Flight> flights) {
         this.flights = flights;
     }
 

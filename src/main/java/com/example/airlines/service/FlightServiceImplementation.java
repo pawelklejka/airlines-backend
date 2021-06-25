@@ -8,6 +8,8 @@ import com.example.airlines.repository.FlightRepository;
 import com.example.airlines.repository.TouristRepository;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,7 @@ public class FlightServiceImplementation implements FlightService {
 
     @Override
     public Page<Flight> findByStartingDestination(String startingDestination, Pageable pageable) {
-        return flightRepository.findByStartingDestination(startingDestination, pageable);
+        return flightRepository.findFlightByStartingDestinationStartsWith(startingDestination, pageable);
     }
 
     @Override
