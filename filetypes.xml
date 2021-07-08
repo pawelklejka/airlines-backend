@@ -1,0 +1,8 @@
+<application>
+  <component name="FileTypeManager" version="17">
+    <extensionMap>
+      <mapping ext="dev" type="Dockerfile" />
+      <mapping ext="gradle.kts" type="Kotlin" />
+    </extensionMap>
+  </component>
+</application>

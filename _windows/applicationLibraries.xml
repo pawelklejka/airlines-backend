@@ -1,0 +1,40 @@
+<application>
+  <component name="libraryTable">
+    <library name="algs4">
+      <CLASSES>
+        <root url="file://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/algs4" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="file://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/algs4" />
+      </SOURCES>
+      <jarDirectory url="file://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/algs4" recursive="false" />
+      <jarDirectory url="file://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/algs4" recursive="false" type="SOURCES" />
+    </library>
+    <library name="algs4  (2)">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/algs4.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/algs4.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="javatuples-1.2">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/.idea/libraries/javatuples-1.2/lib/javatuples-1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="stdlib">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/stdlib.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/Desktop/algorithms-datastructures/sedgewick/stdlib.jar!/" />
+      </SOURCES>
+    </library>
+  </component>
+</application>
