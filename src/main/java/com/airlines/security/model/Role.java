@@ -1,4 +1,4 @@
-package com.airlines.security.auth;
+package com.airlines.security.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

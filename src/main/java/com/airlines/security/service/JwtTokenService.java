@@ -1,4 +1,4 @@
-package com.airlines.security.config;
+package com.airlines.security.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

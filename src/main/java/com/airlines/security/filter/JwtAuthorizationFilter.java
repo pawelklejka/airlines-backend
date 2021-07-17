@@ -1,5 +1,6 @@
-package com.airlines.security.config;
+package com.airlines.security.filter;
 
+import com.airlines.security.service.JwtTokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

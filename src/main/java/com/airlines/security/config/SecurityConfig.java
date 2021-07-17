@@ -1,5 +1,7 @@
 package com.airlines.security.config;
 
+import com.airlines.security.filter.JwtAuthenticationFilter;
+import com.airlines.security.filter.JwtAuthorizationFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

@@ -1,5 +1,6 @@
-package com.airlines.security.auth;
+package com.airlines.security.service;
 
+import com.airlines.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;

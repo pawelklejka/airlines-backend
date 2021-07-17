@@ -1,5 +1,6 @@
-package com.airlines.security.auth;
+package com.airlines.security.repository;
 
+import com.airlines.security.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
