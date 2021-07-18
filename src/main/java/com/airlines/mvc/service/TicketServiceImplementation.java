@@ -18,7 +18,27 @@ public class TicketServiceImplementation implements TicketService {
         return ticketRepository.findById(ticketId);
     }
 
+    public void buyTicket(Long flightId, Tourist tourist, boolean isRegistred, boolean wantToRegister){
 
+        if(isRegistred){
+            // TODO
+            //  jezeli uzytkownik jest zarejestrowany
+            // pobierz jego dane
+            // stworz Tourist
+            // przypisz go do Ticket
+
+        }else {
+            // TODO
+            //  jezeli uzytkownik nie jest zarejestrowany
+            // to sprawdzamy jaka flage otrzymalismy z requesta z formularza
+            if(wantToRegister){
+                // tworzymy User i dodajemy go do bazy danych uzytkownikow, ktorzy beda mogli sie uwierzytelniac i autentyfikowac
+                // tworzymy Tourist i przypisujemy go do biletu
+            }else {
+                // tworzymy tylko Tourist i przypisujemy go do biletu
+            }
+        }
+    }
 
 
 }
