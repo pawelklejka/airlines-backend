@@ -17,11 +17,11 @@
 <body>
 
 <!--18cm na 8cm-->
-<nav class="navbar flex-column">
+<nav class="vertical-nav">
     <div>qr code or code bar</div>
 </nav>
+<nav class="horizontal-nav">align to right CosmicFlights</nav>
 <main>
-    <nav>align to right CosmicFlights</nav>
     <div>
         <h1>NAME OF PASSENGER: </h1> <br />
         <p th:text="${ticket.getTouristInFlight().getSurname()}"> / <p th:text="${ticket.getTouristInFlight().getName()}"></p>
@@ -30,7 +30,7 @@
     </div>
     <div>
         <h1>FLIGHT NUMBER: </h1>
-        <p th:text="${ticket.getTicketId()}"></p>
+        <p th:text="${ticket.getFlightThatTouristIsIn().getId()}"></p>
         <h1>BOARDING TIME: </h1>
         <p th:text="${ticket.getBoardingTime()}"></p>
     </div>
@@ -40,19 +40,20 @@
     </div>
     <div>
         <h1>SEAT: </h1>
-        <p th:text="${ticket.getS}"></p>
-        Tu bedzie logo
+        <p th:text="${ticket.getSeat()}"></p>
+        <!--        Tu bedzie logo-->
     </div>
-    tu dac jakis separator border line albo cus
+    <!--    tu dac jakis separator border line albo cus-->
     <div>
         <h1>NAME OF PASSENGER: </h1>
-        <p th:text="${tourist.getSurname()}"> / <p th:text="${tourist.getName()}"></p>
-        <h1>FROM: </h1> <span th:text="${flight.getStartingDestination()}"></span>
+        <p th:text="${ticket.getTouristInFlight().getSurname()}"> / <p th:text="${ticket.getTouristInFlight().getName()}"></p>
+        <h1>FROM: </h1> <span th:text="${ticket.getFlightThatTouristIsIn().getStartingDestination()}"></span>
+        <h1>TO: </h1> <span th:text="${ticket.getFlightThatTouristIsIn().getFinalDestination()}"></span>
         <div>  // w prostokacie
             FLIGHT: <br />
-            <p th:text="tu bedzie nr lotu"></p>
-            <h1>GATE: </h1> <span th:text="tu bedzie nr bramki"></span>
-            HAVE A NICE TRIP!]
+            <p th:text="${ticket.getFlightThatTouristIsIn().getId()}"></p>
+            <h1>GATE: </h1> <span th:text="${ticket.getGate()}"></span>
+            HAVE A NICE TRIP!
 
         </div>
     </div>

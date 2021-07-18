@@ -2,3 +2,18 @@ body {
     height: 8cm;
     width: 18cm;
 }
+
+.vertical-nav{
+    height: 8cm;
+    width: 5cm;
+}
+
+.horizontal-nav{
+    height: 2cm;
+    width: 18cm;
+}
+
+main{
+    height: 6cm;
+    width: 13cm;
+}
