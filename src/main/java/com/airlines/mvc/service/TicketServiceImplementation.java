@@ -1,6 +1,7 @@
 package com.airlines.mvc.service;
 
 import com.airlines.mvc.model.Ticket;
+import com.airlines.mvc.model.Tourist;
 import com.airlines.mvc.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ public class TicketServiceImplementation implements TicketService {
     public Optional<Ticket> getTicket(Long ticketId) {
         return ticketRepository.findById(ticketId);
     }
+
+
 
 
 }
