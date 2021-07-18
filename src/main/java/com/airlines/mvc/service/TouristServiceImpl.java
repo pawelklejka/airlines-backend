@@ -56,22 +56,22 @@ public class TouristServiceImpl implements TouristService {
 
     @Override
     public void addFlightToTourist(Long id, FlightDTO flightDTO) {
-        Tourist currentTourist = touristRepository.findById(id).get();
-        Flight flight = new Flight();
-        flight.setStartingDestination(flightDTO.getStartingDestination());
-        flight.setFlightStartingTime(dateParserService.parseDateTimeFromString(flightDTO.getFlightStartingTime()));
-        flight.setFlightArrivalTime(dateParserService.parseDateTimeFromString(flightDTO.getFlightArrivalTime()));
-        flight.setCapacity(flightDTO.getCapacity());
-        flight.setPrice(flightDTO.getPrice());
-        currentTourist.add(flight);
-        touristRepository.save(currentTourist);
+//        Tourist currentTourist = touristRepository.findById(id).get();
+//        Flight flight = new Flight();
+//        flight.setStartingDestination(flightDTO.getStartingDestination());
+//        flight.setFlightStartingTime(dateParserService.parseDateTimeFromString(flightDTO.getFlightStartingTime()));
+//        flight.setFlightArrivalTime(dateParserService.parseDateTimeFromString(flightDTO.getFlightArrivalTime()));
+//        flight.setCapacity(flightDTO.getCapacity());
+//        flight.setPrice(flightDTO.getPrice());
+//        currentTourist.add(flight);
+//        touristRepository.save(currentTourist);
     }
 
     @Override
     public void deleteFlightFromTourist(Long touristId, Long flightId) {
-        Tourist currentTourist = touristRepository.findById(touristId).get();
-        currentTourist.getFlights().remove(flightId);
-        touristRepository.save(currentTourist);
+//        Tourist currentTourist = touristRepository.findById(touristId).get();
+//        currentTourist.getFlights().remove(flightId);
+//        touristRepository.save(currentTourist);
     }
 
 

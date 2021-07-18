@@ -9,7 +9,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 public class Tourist {
@@ -102,35 +104,35 @@ public class Tourist {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Map<Long, Flight> getFlights() {
-        return flights;
+    public Set<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setFlights(Map<Long, Flight> flights) {
-        this.flights = flights;
+    public void setFlights(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
-    public void add(Flight flight){
-        if(flights == null){
-            flights = new HashMap<>();
+    public void add(Ticket ticket){
+        if(tickets == null){
+            tickets = new HashSet<>();
         }else {
-            flights.put(flight.getId(), flight);
+            tickets.add(ticket);
         }
 
     }
+//    mozliwe ze do usuniecia
+//    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+//            CascadeType.REFRESH}, fetch = FetchType.LAZY
+//    )
+//    @JoinTable(
+//            name = "reservation",
+//            joinColumns = @JoinColumn(name = "TOURIST_ID"),
+//            inverseJoinColumns = @JoinColumn(name = "FLIGHT_ID")
+//    )
+//    @MapKey(name = "flightId")
+//    @JsonIgnore
+//    private Map<Long, Flight> flights;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.REFRESH}, fetch = FetchType.LAZY
-    )
-    @JoinTable(
-            name = "reservation",
-            joinColumns = @JoinColumn(name = "TOURIST_ID"),
-            inverseJoinColumns = @JoinColumn(name = "FLIGHT_ID")
-    )
-    @MapKey(name = "flightId")
-    @JsonIgnore
-    private Map<Long, Flight> flights;
-
-
-
+    @OneToMany(mappedBy = "flightThatTouristIsIn")
+    private Set<Ticket> tickets;
 }

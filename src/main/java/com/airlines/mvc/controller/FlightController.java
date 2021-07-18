@@ -47,7 +47,7 @@ public class FlightController {
     }
 
     @PatchMapping("/{id}")
-    public void addTouristToFlight(@PathVariable("id") Long id, @Valid @RequestBody TouristDTO touristDTO){
+    public void addTouristToFlight(@PathVariable("id") Long id,  @RequestBody TouristDTO touristDTO){
         flightService.addTouristToFlight(id, touristDTO);
     }
 

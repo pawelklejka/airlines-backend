@@ -1,6 +1,7 @@
 package com.airlines.mvc.service;
 
 
+import com.airlines.mvc.model.Ticket;
 import com.airlines.mvc.model.Tourist;
 import com.airlines.mvc.model.Flight;
 import com.google.common.io.Files;
@@ -24,7 +25,7 @@ import java.util.Optional;
 public class TicketPDFGeneratorServiceImpl  implements TicketPDFGeneratorService{
 
     @Autowired
-    TouristService touristService;
+    TicketService ticketService;
     @Autowired
     ServletContext servletContext;
     @Autowired
@@ -32,17 +33,15 @@ public class TicketPDFGeneratorServiceImpl  implements TicketPDFGeneratorService
 
 
     @Override
-    public ResponseEntity generatePDF(Long touristId, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Optional<Tourist> tourist = touristService.findById(touristId);
-        Optional<Flight> flight = Optional.ofNullable(tourist.get().getFlights().remove(0l));
+    public ResponseEntity generatePDF(Long ticketId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Optional<Ticket> ticket = ticketService.getTicket(ticketId);
 
-        System.out.println(tourist.get().toString());
+        System.out.println(ticket.get().toString());
 
         /* Create HTML using Thymeleaf template Engine */
 
         WebContext context = new WebContext(request, response, servletContext);
-        context.setVariable("tourist", tourist.get());
-        context.setVariable("flight", flight.get());
+        context.setVariable("ticket", ticket.get());
         String orderHtml = templateEngine.process("ticket", context);
 
         /* Setup Source and target I/O streams */

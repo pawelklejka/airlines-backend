@@ -13,5 +13,5 @@ dodamy tego kodu pojawia się bug związany z kodowaniem znaków i strefą czaso
 Monoolit jest napisany w Javie we frameworku Spring oraz posiada bazę danych MySQL,
 do której zostały najpierw wygenerowane przykładowe dane za pomocą biblioteki JavaFaker, po czym dane te zostały pobrane przez MySQL Workbench w postaci skryptu MySQL, który jest
 uruchamiany za każdym razem, gdy aplikacja jest startowana (dlatego spring.jpa.hibernate.ddl-auto=create oraz spring.datasource.initialization-mode=always co powoduje usuniecie
-schematu tabeli oraz ponowne jego utworzenie za kazdym uruchomieniem i zapelnienie bazy danych skryptem data-mysql.sql), gdyż jest to rozwiązanie szybsze niż za każdym generowanie
+schematu tabeli oraz ponowne jego utworzenie za kazdym uruchomieniem i zapelnienie bazy danych skryptem data.sql), gdyż jest to rozwiązanie szybsze niż za każdym generowanie
 danych z pomocą JavaFaker. 

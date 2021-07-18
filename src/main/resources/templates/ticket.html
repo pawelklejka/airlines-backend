@@ -6,49 +6,56 @@
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>Spring Boot - Thymeleaf</title>
-    <link th:href="@{/main.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css" />
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+    />
 </head>
-<body class="flex items-center justify-center h-screen">
-<div class="rounded-lg border shadow-lg p-10 w-3/5">
-    <div class="flex flex-row justify-between pb-4">
-        <div>
-            <h2 class="text-xl font-bold">Ticket #<span class="text-green-600" th:text="${tourist.id}"></span>
-            </h2>
-        </div>
-        <div>
-            <div class="text-xl font-bold" th:text="${flight.getFlightStartingTime()}"></div>
+<body>
+
+<!--18cm na 8cm-->
+<nav class="navbar flex-column">
+    <div>qr code or code bar</div>
+</nav>
+<main>
+    <nav>align to right CosmicFlights</nav>
+    <div>
+        <h1>NAME OF PASSENGER: </h1> <br />
+        <p th:text="${ticket.getTouristInFlight().getSurname()}"> / <p th:text="${ticket.getTouristInFlight().getName()}"></p>
+        <h1>FROM: </h1> <span th:text="${ticket.getFlightThatTouristIsIn().getStartingDestination()}"></span>
+        <h1>TO: </h1> <span th:text="${ticket.getFlightThatTouristIsIn().getFinalDestination()}"></span>
+    </div>
+    <div>
+        <h1>FLIGHT NUMBER: </h1>
+        <p th:text="${ticket.getTicketId()}"></p>
+        <h1>BOARDING TIME: </h1>
+        <p th:text="${ticket.getBoardingTime()}"></p>
+    </div>
+    <div>
+        <h1>DATE: </h1>
+        <p th:text="${ticket.getFlightThatTouristIsIn().getFlightStartingTime()}"></p>
+    </div>
+    <div>
+        <h1>SEAT: </h1>
+        <p th:text="${ticket.getS}"></p>
+        Tu bedzie logo
+    </div>
+    tu dac jakis separator border line albo cus
+    <div>
+        <h1>NAME OF PASSENGER: </h1>
+        <p th:text="${tourist.getSurname()}"> / <p th:text="${tourist.getName()}"></p>
+        <h1>FROM: </h1> <span th:text="${flight.getStartingDestination()}"></span>
+        <div>  // w prostokacie
+            FLIGHT: <br />
+            <p th:text="tu bedzie nr lotu"></p>
+            <h1>GATE: </h1> <span th:text="tu bedzie nr bramki"></span>
+            HAVE A NICE TRIP!]
+
         </div>
     </div>
-    <div class="flex flex-col pb-8">
-        <div class="pb-2">
-            <h2 class="text-xl font-bold">Personal Information</h2>
-        </div>
-        <div th:text="${tourist.name}"></div>
-        <div th:text="${tourist.surname}"></div>
-        <div th:text="${tourist.country}"></div>
-        <div th:text="${tourist.dateOfBirth}"></div>
-
-    </div>
-    <h2 class="text-xl font-bold">Flight Details</h2>
-    <table class="table-fixed text-left w-2/6 border">
-        <tr>
-            <th class="text-green-600">Flight ID</th>
-            <td th:text="${flight.id}"></td>
-        </tr>
-        <tr>
-            <th class="text-green-600">Flight Starting Destination</th>
-            <td th:text="${flight.startingDestination}"></td>
-        </tr>
-        <tr>
-            <th class="text-green-600">Flight Starting Time</th>
-            <td th:text="${flight.flightStartingTime}"></td>
-        </tr>
-        <tr>
-            <th class="text-green-600">Flight Arrival Time</th>
-            <td th:text="${flight.flightArrivalTime}"></td>
-        </tr>
-
-    </table>
-</div>
+</main>
 </body>
 </html>

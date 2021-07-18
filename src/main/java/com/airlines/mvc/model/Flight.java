@@ -8,10 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //@Profile("flightControllerWebTest")
 @Entity
@@ -24,6 +21,11 @@ public class Flight {
     @Column(name = "STARTING_DESTINATION")
     @NotNull
     private String startingDestination;
+
+    @Column
+    @NotNull
+    private String finalDestination;
+
 
     @Column(name = "FLIGHT_STARTING_TIME")
     @DateTimeFormat(pattern = "yyy-MM-dd hh:mm")
@@ -51,6 +53,9 @@ public class Flight {
     @DecimalMin(value = "100.00")
     private BigDecimal price;
 
+    @Transient
+    private Set<Tourist> tourists;
+
     public Flight(){
 
     }
@@ -61,8 +66,8 @@ public class Flight {
         this.flightStartingTime = flightStartingTime;
         this.flightArrivalTime = flightArrivalTime;
         this.capacity = capacity;
-        this.tourists = new HashMap<>();
-        this.touristAmount = tourists.size();
+        this.tickets = new HashSet<>();
+        this.touristAmount = tickets.size();
         this.price = price;
     }
 
@@ -125,47 +130,69 @@ public class Flight {
     }
 
     public List getTourists() {
-        List<TouristDTO> touristsDTO = new ArrayList<>();
-        for(Map.Entry<Long, Tourist> entry : tourists.entrySet()){
-            TouristDTO touristDTO = new TouristDTO();
-            touristDTO.setId(entry.getKey());
-            touristDTO.setName(entry.getValue().getName());
-            touristDTO.setSurname(entry.getValue().getSurname());
-            touristDTO.setCountry(entry.getValue().getCountry());
-            touristDTO.setSex(entry.getValue().getSex());
-            touristDTO.setDateOfBirth(entry.getValue().getDateOfBirth().toString());
-            touristDTO.setNotes(entry.getValue().getNotes());
-            touristsDTO.add(touristDTO);
-
-        }
-        return touristsDTO;
+        TouristDTO touristDTO = new TouristDTO();
+//        List<TouristDTO> touristsDTO = tickets.stream()
+//                .map(ticket -> touristDTO.setName(ticket.));
+//
+//
+//
+//        for(Ticket ticket : tickets){
+//            TouristDTO touristDTO = new TouristDTO();
+//            touristDTO.setId(tourist.getId());
+//            touristDTO.setName(tourist.getName());
+//            touristDTO.setSurname(tourist.getSurname());
+//            touristDTO.setCountry(tourist.getCountry());
+//            touristDTO.setSex(tourist.getSex());
+//            touristDTO.setDateOfBirth(tourist.getDateOfBirth().toString());
+//            touristDTO.setNotes(tourist.getNotes());
+//            touristsDTO.add(touristDTO);
+//
+//        }
+        return new ArrayList();
     }
 
-    public void setTourists(Map<Long, Tourist> tourists) {
+    public String getFinalDestination() {
+        return finalDestination;
+    }
+
+    public void setFinalDestination(String finalDestination) {
+        this.finalDestination = finalDestination;
+    }
+
+    /* TODO
+    przerobić metody setTourists i addTourist
+     */
+
+    public void setTourists(Set <Tourist> tourists) {
         this.tourists = tourists;
         this.setTouristAmount();
     }
 
     public void add(Tourist tourist){
         if(tourists == null){
-            tourists = new HashMap<>();
+            tourists = new HashSet<>();
         }
-        tourists.put(tourist.getId(),tourist);
+        tourists.add(tourist);
         this.setTouristAmount();
 
 
     }
+//    możliwe że do usunięcia
+//    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+//            CascadeType.REFRESH}, fetch = FetchType.LAZY
+//    )
+//    @JoinTable(
+//            name = "reservation",
+//            joinColumns = @JoinColumn(name = "FLIGHT_ID"),
+//            inverseJoinColumns = @JoinColumn(name = "TOURIST_ID")
+//    )
+//    @MapKey(name = "touristId")
+////    @JsonIgnore
+//    private Map<Long, Tourist> tourists;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.REFRESH}, fetch = FetchType.LAZY
-    )
-    @JoinTable(
-            name = "reservation",
-            joinColumns = @JoinColumn(name = "FLIGHT_ID"),
-            inverseJoinColumns = @JoinColumn(name = "TOURIST_ID")
-    )
-    @MapKey(name = "touristId")
-//    @JsonIgnore
-    private Map<Long, Tourist> tourists;
+
+    @OneToMany(mappedBy = "touristInFlight")
+    private Set<Ticket> tickets;
+
 
 }
