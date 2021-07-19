@@ -57,8 +57,8 @@ public class TicketPDFGeneratorServiceImpl  implements TicketPDFGeneratorService
 
         /* extract output as bytes */
         byte[] bytes = target.toByteArray();
-
-        Files.write(bytes, new File("resources/template/ticket.pdf"));
+            //cos nie zapisuje
+//        Files.write(bytes, new File("resources/template/ticket.pdf"));
 
 
         return ResponseEntity.ok()

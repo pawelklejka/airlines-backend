@@ -112,11 +112,14 @@ public class Tourist {
         this.tickets = tickets;
     }
 
-    public void add(Ticket ticket){
+    public void add(Flight flight){
+        Ticket touristTicket = new Ticket();
+        touristTicket.setTouristInFlight(this);
+        touristTicket.setFlightThatTouristIsIn(flight);
         if(tickets == null){
             tickets = new HashSet<>();
         }else {
-            tickets.add(ticket);
+            tickets.add(touristTicket);
         }
 
     }
@@ -133,6 +136,6 @@ public class Tourist {
 //    @JsonIgnore
 //    private Map<Long, Flight> flights;
 
-    @OneToMany(mappedBy = "flightThatTouristIsIn")
+    @OneToMany(mappedBy = "flightThatTouristIsIn", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<Ticket> tickets;
 }

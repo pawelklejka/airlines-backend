@@ -1,5 +1,7 @@
 package com.airlines.mvc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalTime;
 
@@ -82,9 +84,12 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "tourist_id")
+    @JsonIgnore
     private Tourist touristInFlight;
+
     @ManyToOne
     @JoinColumn(name = "flight_id")
+    @JsonIgnore
     private Flight flightThatTouristIsIn;
 
 

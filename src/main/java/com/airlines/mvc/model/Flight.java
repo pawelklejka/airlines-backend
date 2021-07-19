@@ -50,7 +50,7 @@ public class Flight {
 
     @Column(name = "FLIGHT_PRICE")
     @NotNull
-    @DecimalMin(value = "100.00")
+//    @DecimalMin(value = "100.00")
     private BigDecimal price;
 
     @Transient
@@ -169,11 +169,18 @@ public class Flight {
     }
 
     public void add(Tourist tourist){
+        Ticket ticketForTourist = new Ticket();
+        ticketForTourist.setFlightThatTouristIsIn(this);
+        ticketForTourist.setTouristInFlight(tourist);
         if(tourists == null){
             tourists = new HashSet<>();
         }
         tourists.add(tourist);
         this.setTouristAmount();
+        if(tickets == null){
+            tickets = new HashSet<>();
+        }
+        tickets.add(ticketForTourist);
 
 
     }
@@ -191,7 +198,7 @@ public class Flight {
 //    private Map<Long, Tourist> tourists;
 
 
-    @OneToMany(mappedBy = "touristInFlight")
+    @OneToMany(mappedBy = "touristInFlight", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<Ticket> tickets;
 
 

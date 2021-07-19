@@ -1,10 +1,12 @@
 package com.airlines.mvc.service;
 
+import com.airlines.mvc.model.Ticket;
 import com.airlines.mvc.model.Tourist;
 import com.airlines.mvc.DTO.FlightDTO;
 import com.airlines.mvc.DTO.TouristDTO;
 import com.airlines.mvc.model.Flight;
 import com.airlines.mvc.repository.FlightRepository;
+import com.airlines.mvc.repository.TicketRepository;
 import com.airlines.mvc.repository.TouristRepository;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FlightServiceImplementation implements FlightService {
     @Autowired
     FlightRepository flightRepository;
+
+    @Autowired
+    TicketRepository ticketRepository;
 
     @Autowired
     TouristRepository touristRepository;
@@ -113,11 +118,11 @@ public class FlightServiceImplementation implements FlightService {
 
             flight.setCapacity(capacity);
 
-            Map<Long, Tourist> tourists = new HashMap<>();;
             for(int counter = touristAmount; counter < capacity; counter++){
                 Faker faker2 = new Faker(new Locale("pl"));
 
                 Tourist tourist = new Tourist();
+
                 tourist.setName(faker2.name().firstName());
                 tourist.setSurname(faker2.name().lastName());
                 tourist.setDateOfBirth(LocalDate.of((int)(Math.random() * 35) + 1970, (int)(Math.random() * 11) + 1, (int)(Math.random() * 28) + 1));
@@ -131,6 +136,7 @@ public class FlightServiceImplementation implements FlightService {
             }
             flight.setTouristAmount();
             flight.setStartingDestination(faker.country().capital());
+            flight.setFinalDestination("EARTH ORBIT");
             flight.setFlightStartingTime(LocalDateTime.of(year, month, day, hour, minute));
             flight.setFlightArrivalTime(LocalDateTime.of(year, month, day, hour + 3, minute + 15));
             flight.setPrice(new BigDecimal(BigInteger.valueOf(new Random().nextInt(100001)), 2));
