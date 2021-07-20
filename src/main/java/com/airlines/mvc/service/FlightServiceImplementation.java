@@ -91,7 +91,15 @@ public class FlightServiceImplementation implements FlightService {
     @Override
     public void deleteTouristFromFlight(Long flightId, Long touristId) {
         Flight currentFlight = flightRepository.findById(flightId).get();
-        currentFlight.getTourists().remove(touristId);
+        Ticket ticket = touristRepository.findById(touristId).get().getTickets().stream()
+                .filter(ticketToBeRemoved -> ticketToBeRemoved.getFlightThatTouristIsIn().getId().equals(currentFlight.getId()))
+                .findFirst()
+                .get();
+        System.out.println(ticket.getTouristInFlight().getSurname());
+        ticket.setTouristInFlight(null);
+        ticket.setFlightThatTouristIsIn(null);
+        currentFlight.removeTouristFromFlight(ticket);
+        ticketRepository.deleteById(ticket.getTicketId());
         flightRepository.save(currentFlight);
     }
 
@@ -145,10 +153,10 @@ public class FlightServiceImplementation implements FlightService {
     }
 
 
-//    @Override
-//    public List<Tourist> findTouristsInFlight(Long id) {
-//        return flightRepository.findTouristsInFlight(id);
-//    }
+    @Override
+    public Set<TouristDTO> findTouristsInFlight(Long flightId) {
+        return flightRepository.findById(flightId).get().getTourists();
+    }
 
 
 }

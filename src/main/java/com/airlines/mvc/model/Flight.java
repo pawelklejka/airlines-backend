@@ -3,12 +3,14 @@ package com.airlines.mvc.model;
 import com.airlines.mvc.DTO.TouristDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.thymeleaf.expression.Lists;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //@Profile("flightControllerWebTest")
 @Entity
@@ -53,23 +55,11 @@ public class Flight {
 //    @DecimalMin(value = "100.00")
     private BigDecimal price;
 
-    @Transient
-    private Set<Tourist> tourists;
 
     public Flight(){
 
     }
 
-    public Flight(String startingDestination, LocalDateTime flightStartingTime, LocalDateTime flightArrivalTime,
-                  Integer capacity, BigDecimal price){
-        this.startingDestination = startingDestination;
-        this.flightStartingTime = flightStartingTime;
-        this.flightArrivalTime = flightArrivalTime;
-        this.capacity = capacity;
-        this.tickets = new HashSet<>();
-        this.touristAmount = tickets.size();
-        this.price = price;
-    }
 
     public Long getId() {
         return flightId;
@@ -113,7 +103,7 @@ public class Flight {
     }
 
     public void setTouristAmount() {
-        this.touristAmount = tourists.size();
+        this.touristAmount = tickets.size();
     }
 
     public Integer getTouristAmount() {
@@ -129,27 +119,6 @@ public class Flight {
         this.price = price;
     }
 
-    public List getTourists() {
-        TouristDTO touristDTO = new TouristDTO();
-//        List<TouristDTO> touristsDTO = tickets.stream()
-//                .map(ticket -> touristDTO.setName(ticket.));
-//
-//
-//
-//        for(Ticket ticket : tickets){
-//            TouristDTO touristDTO = new TouristDTO();
-//            touristDTO.setId(tourist.getId());
-//            touristDTO.setName(tourist.getName());
-//            touristDTO.setSurname(tourist.getSurname());
-//            touristDTO.setCountry(tourist.getCountry());
-//            touristDTO.setSex(tourist.getSex());
-//            touristDTO.setDateOfBirth(tourist.getDateOfBirth().toString());
-//            touristDTO.setNotes(tourist.getNotes());
-//            touristsDTO.add(touristDTO);
-//
-//        }
-        return new ArrayList();
-    }
 
     public String getFinalDestination() {
         return finalDestination;
@@ -159,32 +128,53 @@ public class Flight {
         this.finalDestination = finalDestination;
     }
 
-    /* TODO
-    przerobić metody setTourists i addTourist
-     */
-
-    public void setTourists(Set <Tourist> tourists) {
-        this.tourists = tourists;
-        this.setTouristAmount();
-    }
 
     public void add(Tourist tourist){
         Ticket ticketForTourist = new Ticket();
         ticketForTourist.setFlightThatTouristIsIn(this);
         ticketForTourist.setTouristInFlight(tourist);
-        if(tourists == null){
-            tourists = new HashSet<>();
-        }
-        tourists.add(tourist);
-        this.setTouristAmount();
         if(tickets == null){
             tickets = new HashSet<>();
-        }
-        tickets.add(ticketForTourist);
+        }else{
+            if(tickets.size() <= capacity){
+                tickets.add(ticketForTourist);
+                System.out.println(tickets.size());
+            }else{
+                //TODO zrobic obsluge bledu gdy przekroczymy pojemnosc samolotu
+            }
 
+        }
+        System.out.println(ticketForTourist.toString());
+        this.setTouristAmount();
 
     }
-//    możliwe że do usunięcia
+
+    public boolean removeTouristFromFlight(Ticket ticket){
+        System.out.println(ticket.getTicketId());
+        System.out.println(tickets.contains(ticket));
+        System.out.println(tickets.remove(ticket));
+        System.out.println(tickets.contains(ticket));
+        return tickets.remove(ticket);
+    }
+
+    public Set<TouristDTO> getTourists(){
+        return tickets.stream()
+                .map(ticket -> {
+                    TouristDTO touristDTO = new TouristDTO();
+                    touristDTO.setId(ticket.getTouristInFlight().getId());
+                    touristDTO.setName(ticket.getTouristInFlight().getName());
+                    touristDTO.setSurname(ticket.getTouristInFlight().getSurname());
+                    touristDTO.setCountry(ticket.getTouristInFlight().getCountry());
+                    touristDTO.setDateOfBirth(ticket.getTouristInFlight().getDateOfBirth().toString());
+                    touristDTO.setSex(ticket.getTouristInFlight().getSex());
+                    touristDTO.setNotes(ticket.getTouristInFlight().getNotes());
+                    return touristDTO;
+                })
+                .collect(Collectors.toSet());
+  }
+
+
+    //    możliwe że do usunięcia
 //    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 //            CascadeType.REFRESH}, fetch = FetchType.LAZY
 //    )
@@ -198,7 +188,7 @@ public class Flight {
 //    private Map<Long, Tourist> tourists;
 
 
-    @OneToMany(mappedBy = "touristInFlight", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "flightThatTouristIsIn", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, fetch = FetchType.LAZY)
     private Set<Ticket> tickets;
 
 

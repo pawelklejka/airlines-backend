@@ -8,10 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Tourist {
@@ -123,7 +120,9 @@ public class Tourist {
         }
 
     }
-//    mozliwe ze do usuniecia
+
+
+    //    mozliwe ze do usuniecia
 //    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 //            CascadeType.REFRESH}, fetch = FetchType.LAZY
 //    )
@@ -136,6 +135,6 @@ public class Tourist {
 //    @JsonIgnore
 //    private Map<Long, Flight> flights;
 
-    @OneToMany(mappedBy = "flightThatTouristIsIn", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "touristInFlight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<Ticket> tickets;
 }

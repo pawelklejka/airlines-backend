@@ -3,6 +3,7 @@ package com.airlines.mvc.controller;
 import com.airlines.mvc.DTO.FlightDTO;
 import com.airlines.mvc.DTO.TouristDTO;
 import com.airlines.mvc.model.Flight;
+import com.airlines.mvc.model.Tourist;
 import com.airlines.mvc.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,9 +52,9 @@ public class FlightController {
         flightService.addTouristToFlight(id, touristDTO);
     }
 
-    @PatchMapping("/delete/{id}")
+    @PatchMapping("/{id}/delete")
     public void deleteTouristFromFlight(@PathVariable("id") Long flightId, @RequestParam Long touristId){
-
+        //TODO NAPRAWIC TEN ENDPOINT
         flightService.deleteTouristFromFlight(flightId, touristId);
     }
 
@@ -63,10 +64,10 @@ public class FlightController {
         flightService.updateFlight(id, flightDTO);
     }
 
-//    @GetMapping("/findTouristsInFlight/{id}")
-//    public List<Tourist> findTouristsInFlights(@PathVariable Long id){
-//        return flightService.findTouristsInFlight(id);
-//    }
+    @GetMapping("/findTouristsInFlight/{id}")
+    public Set<TouristDTO> findTouristsInFlights(@PathVariable Long id){
+        return flightService.findTouristsInFlight(id);
+    }
 
     @PostMapping("/")
     public void save(@Valid @RequestBody FlightDTO flightDTO){

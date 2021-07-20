@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.Objects;
 
 @Entity
 public class Ticket {
@@ -81,16 +82,41 @@ public class Ticket {
         this.seat = seat;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ticket)) return false;
+        Ticket ticket = (Ticket) o;
+        return Objects.equals(getTicketId(), ticket.getTicketId()) &&
+                Objects.equals(getGate(), ticket.getGate()) &&
+                Objects.equals(getSeat(), ticket.getSeat()) &&
+                Objects.equals(getBoardingTime(), ticket.getBoardingTime()) &&
+                Objects.equals(getCodeBarQrBar(), ticket.getCodeBarQrBar()) &&
+                Objects.equals(getTouristInFlight(), ticket.getTouristInFlight()) &&
+                Objects.equals(getFlightThatTouristIsIn(), ticket.getFlightThatTouristIsIn());
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "tourist_id")
-    @JsonIgnore
-    private Tourist touristInFlight;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTicketId(), getGate(), getSeat(), getBoardingTime(), getCodeBarQrBar(), getTouristInFlight(), getFlightThatTouristIsIn());
+    }
+
+
+
+
 
     @ManyToOne
     @JoinColumn(name = "flight_id")
     @JsonIgnore
     private Flight flightThatTouristIsIn;
+
+
+    //sprobwac dac tutaj cascadetype remove czy usunie wszystkich klientow jezeli usuniemy caly lot
+    @ManyToOne
+    @JoinColumn(name = "tourist_id")
+    @JsonIgnore
+    private Tourist touristInFlight;
+
 
 
 

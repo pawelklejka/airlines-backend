@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface FlightService {
     Page<Flight> findByStartingDestination(String startingDestination, Pageable pageable);
@@ -18,5 +19,5 @@ public interface FlightService {
     void deleteTouristFromFlight(Long flightId, Long touristId);
     void deleteById(long id);
     void fillWithData(Integer amountOfFlight);
-//    List<Tourist> findTouristsInFlight(Long id);
+    Set<TouristDTO> findTouristsInFlight(Long id);
 }
