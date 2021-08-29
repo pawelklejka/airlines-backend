@@ -1,6 +1,6 @@
 package com.airlines.mvc.service;
 
-import com.DemoApplication;
+import com.AirlinesApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@SpringBootTest(classes = DemoApplication.class)
+@SpringBootTest(classes = AirlinesApplication.class)
 public class DateParserServiceTest {
 
     @Autowired

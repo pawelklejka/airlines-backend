@@ -3,6 +3,7 @@ package com.airlines.mvc.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketId;
-    private Long gate;
+    private String gate;
     private Long seat;
     private LocalTime boardingTime;
     private String codeBarQrBar; //TODO IMPLEMENT SERVICE THAT GENERATE QR OR BARCODE
@@ -29,12 +30,12 @@ public class Ticket {
         this.ticketId = ticketId;
     }
 
-    public Long getGate() {
+    public String getGate() {
 
         return gate;
     }
 
-    public void setGate(Long gate) {
+    public void setGate(String gate) {
         this.gate = gate;
     }
 
@@ -43,11 +44,11 @@ public class Ticket {
         return boardingTime;
     }
 
-    public void setBoardingTime() {
-        LocalTime boardingTime =
-                LocalTime.of(getFlightThatTouristIsIn().getFlightStartingTime().getHour(),
-                        getFlightThatTouristIsIn().getFlightStartingTime().getMinute() - 30);
-        this.boardingTime = boardingTime;
+    public void setBoardingTime(LocalDateTime startingTime) {
+
+        LocalTime localTime = LocalTime.of((startingTime.getHour()), startingTime.getMinute());
+
+        this.boardingTime = LocalTime.of(localTime.getHour(), localTime.getMinute()).minusMinutes(30);
     }
 
     public String getCodeBarQrBar() {

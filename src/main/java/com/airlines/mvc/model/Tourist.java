@@ -1,14 +1,16 @@
 package com.airlines.mvc.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Tourist {
@@ -18,21 +20,26 @@ public class Tourist {
     private Long touristId;
 
     @Column(name = "TOURIST_NAME")
-    @NotNull
+    @NotBlank
     @Size(max = 100)
     private String name;
 
     @Column(name = "TOURIST_SURNAME")
-    @NotNull
+    @NotBlank
     @Size(max = 100)
     private String surname;
 
+    @NotBlank
+    @Email
+    @Column(unique = true)
+    private String email;
+
     @Column(name = "TOURIST_SEX")
-    @NotNull
+    @NotBlank
     private String sex;
 
     @Column(name = "TOURIST_COUNTRY")
-    @NotNull
+    @NotBlank
     @Size(max = 75)
     private String country;
 
@@ -109,6 +116,12 @@ public class Tourist {
         this.tickets = tickets;
     }
 
+    public String getEmail() {
+        return email;
+    }public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void add(Flight flight){
         Ticket touristTicket = new Ticket();
         touristTicket.setTouristInFlight(this);
@@ -135,6 +148,6 @@ public class Tourist {
 //    @JsonIgnore
 //    private Map<Long, Flight> flights;
 
-    @OneToMany(mappedBy = "touristInFlight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "touristInFlight", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private Set<Ticket> tickets;
 }

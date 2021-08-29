@@ -2,15 +2,8 @@ package com.airlines.mvc.service;
 
 
 import com.airlines.mvc.model.Ticket;
-import com.airlines.mvc.model.Tourist;
-import com.airlines.mvc.model.Flight;
-import com.google.common.io.Files;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -18,22 +11,25 @@ import org.thymeleaf.context.WebContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
-public class TicketPDFGeneratorServiceImpl  implements TicketPDFGeneratorService{
+public class TicketPDFGeneratorServiceImpl implements TicketPDFGeneratorService {
+    private final TicketService ticketService;
+    private final ServletContext servletContext;
+    private final TemplateEngine templateEngine;
 
-    @Autowired
-    TicketService ticketService;
-    @Autowired
-    ServletContext servletContext;
-    @Autowired
-    TemplateEngine templateEngine;
+    public TicketPDFGeneratorServiceImpl(TicketService ticketService, ServletContext servletContext, TemplateEngine templateEngine) {
+        this.ticketService = ticketService;
+        this.servletContext = servletContext;
+        this.templateEngine = templateEngine;
+    }
 
 
     @Override
-    public ResponseEntity generatePDF(Long ticketId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public byte[] generatePDF(Long ticketId, HttpServletRequest request, HttpServletResponse response) throws IOException {
         Optional<Ticket> ticket = ticketService.getTicket(ticketId);
 
         System.out.println(ticket.get().toString());
@@ -57,13 +53,10 @@ public class TicketPDFGeneratorServiceImpl  implements TicketPDFGeneratorService
 
         /* extract output as bytes */
         byte[] bytes = target.toByteArray();
-            //cos nie zapisuje
+        //cos nie zapisuje
 //        Files.write(bytes, new File("resources/template/ticket.pdf"));
 
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=ticket.pdf")
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(bytes);
+        return bytes;
     }
 }

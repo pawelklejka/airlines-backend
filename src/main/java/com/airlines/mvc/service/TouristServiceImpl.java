@@ -2,23 +2,32 @@ package com.airlines.mvc.service;
 
 import com.airlines.mvc.DTO.FlightDTO;
 import com.airlines.mvc.DTO.TouristDTO;
+import com.airlines.mvc.exception.AirlinesError;
+import com.airlines.mvc.exception.AirlinesException;
 import com.airlines.mvc.model.Flight;
+import com.airlines.mvc.model.Ticket;
 import com.airlines.mvc.model.Tourist;
+import com.airlines.mvc.repository.FlightRepository;
+import com.airlines.mvc.repository.TicketRepository;
 import com.airlines.mvc.repository.TouristRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service("touristService")
 public class TouristServiceImpl implements TouristService {
-    @Autowired
-    TouristRepository touristRepository;
 
-    @Autowired
-    DateParserService dateParserService;
+    private final TouristRepository touristRepository;
+    private final DateParserService dateParserService;
+    private final TicketRepository ticketRepository;
+    private final FlightRepository flightRepository;
+
+    public TouristServiceImpl(TouristRepository touristRepository, DateParserService dateParserService, TicketRepository ticketRepository, FlightRepository flightRepository) {
+        this.touristRepository = touristRepository;
+        this.dateParserService = dateParserService;
+        this.ticketRepository = ticketRepository;
+        this.flightRepository = flightRepository;
+    }
 
     @Override
     public Page<Tourist> findAll(Pageable pageable) {
@@ -26,36 +35,26 @@ public class TouristServiceImpl implements TouristService {
     }
 
     @Override
-    public Optional<Tourist> findById(Long id) {
-        return touristRepository.findById(id);
+    public Tourist findById(Long id) {
+        return touristRepository.findById(id).orElseThrow(() -> new AirlinesException(AirlinesError.TOURIST_NOT_FOUND));
     }
 
     @Override
     public void save(TouristDTO touristDTO) {
-        Tourist tourist = new Tourist();
-        tourist.setName(touristDTO.getName());
-        tourist.setSurname(touristDTO.getSurname());
-        tourist.setSex(touristDTO.getSex());
-        tourist.setCountry(touristDTO.getCountry());
-        tourist.setDateOfBirth(dateParserService.parseDateFromString(touristDTO.getDateOfBirth()));
-        tourist.setNotes(touristDTO.getNotes());
+        Tourist tourist = convertDtoToEntity(touristDTO);
         touristRepository.save(tourist);
     }
 
     @Override
     public void updateTourist(Long id, TouristDTO touristDTO) {
-        Tourist currentTourist = touristRepository.findById(id).get();
-        currentTourist.setName(touristDTO.getName());
-        currentTourist.setSurname(touristDTO.getSurname());
-        currentTourist.setSex(touristDTO.getSex());
-        currentTourist.setCountry(touristDTO.getCountry());
-        currentTourist.setDateOfBirth(dateParserService.parseDateFromString(touristDTO.getDateOfBirth()));
-        currentTourist.setNotes(touristDTO.getNotes());
+        Tourist currentTourist = touristRepository.findById(id).
+                map(tourist -> convertDtoToEntity(touristDTO))
+                .orElseThrow(() -> new AirlinesException(AirlinesError.TOURIST_NOT_FOUND));
         touristRepository.save(currentTourist);
     }
 
     @Override
-    public void addFlightToTourist(Long id, FlightDTO flightDTO) {
+    public void addTicketToTourist(Long id, FlightDTO flightDTO) {
 //        Tourist currentTourist = touristRepository.findById(id).get();
 //        Flight flight = new Flight();
 //        flight.setStartingDestination(flightDTO.getStartingDestination());
@@ -68,16 +67,36 @@ public class TouristServiceImpl implements TouristService {
     }
 
     @Override
-    public void deleteFlightFromTourist(Long touristId, Long flightId) {
-//        Tourist currentTourist = touristRepository.findById(touristId).get();
-//        currentTourist.getFlights().remove(flightId);
-//        touristRepository.save(currentTourist);
+    public void deleteTicketFromTourist(Long touristId, Long flightId) {
+        Tourist tourist = touristRepository.findById(touristId)
+                .orElseThrow(() -> new AirlinesException(AirlinesError.TOURIST_NOT_FOUND));
+
+        Ticket ticket = tourist.getTickets().stream()
+                .filter(t -> t.getFlightThatTouristIsIn().getId().equals(flightId))
+                .findFirst()
+                .orElseThrow(() -> new AirlinesException(AirlinesError.TICKET_NOT_FOUND));
+        tourist.getTickets().remove(ticket);
+        ticketRepository.deleteById(ticket.getTicketId());
+        touristRepository.save(tourist);
     }
 
 
     @Override
     public void deleteById(Long id) {
+
         touristRepository.deleteById(id);
+    }
+
+    private Tourist convertDtoToEntity(TouristDTO touristDTO) {
+        Tourist tourist = new Tourist();
+        tourist.setName(touristDTO.getName());
+        tourist.setSurname(touristDTO.getSurname());
+        tourist.setEmail(touristDTO.getEmail());
+        tourist.setSex(touristDTO.getSex());
+        tourist.setCountry(touristDTO.getCountry());
+        tourist.setDateOfBirth(this.dateParserService.parseDateFromString(touristDTO.getDateOfBirth()));
+        tourist.setNotes(touristDTO.getNotes());
+        return tourist;
     }
 
 }

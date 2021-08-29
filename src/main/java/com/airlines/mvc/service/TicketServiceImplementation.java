@@ -9,8 +9,11 @@ import java.util.Optional;
 
 @Service
 public class TicketServiceImplementation implements TicketService {
-    @Autowired
-    TicketRepository ticketRepository;
+    private final TicketRepository ticketRepository;
+
+    public TicketServiceImplementation(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
+    }
 
     @Override
     public Optional<Ticket> getTicket(Long ticketId) {

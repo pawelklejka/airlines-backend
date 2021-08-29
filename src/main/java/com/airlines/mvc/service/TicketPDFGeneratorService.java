@@ -8,5 +8,5 @@ import java.io.IOException;
 
 public interface TicketPDFGeneratorService {
 
-    ResponseEntity generatePDF(Long touristId, HttpServletRequest request, HttpServletResponse response) throws IOException;
+    byte[] generatePDF(Long touristId, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

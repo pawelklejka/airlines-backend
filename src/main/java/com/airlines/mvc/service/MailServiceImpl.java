@@ -1,5 +1,6 @@
 package com.airlines.mvc.service;
 
+import org.apache.tomcat.jni.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,7 +13,6 @@ import javax.mail.internet.MimeMessage;
 public class MailServiceImpl implements MailService {
     private JavaMailSender javaMailSender;
 
-    @Autowired
     public MailServiceImpl(JavaMailSender javaMailSender){
         this.javaMailSender = javaMailSender;
     }
@@ -24,6 +24,7 @@ public class MailServiceImpl implements MailService {
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject(subject);
         mimeMessageHelper.setText(text, isHtmlContent);
+//        mimeMessageHelper.addAttachment("ticket.pdf", );
         javaMailSender.send(mimeMessage);
     }
 }
