@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
-//    @Query("select f from Flight f where f.startingDestination like %?1%")
-//    Page<Flight> findByStartingDestination(String startingDestination, Pageable pageable);
 
     Page<Flight> findFlightByStartingDestinationStartsWith(String startingDestination, Pageable pageable);
 
 }
+//    @Query("select f from Flight f where f.startingDestination like %?1%")
+//    Page<Flight> findByStartingDestination(String startingDestination, Pageable pageable);

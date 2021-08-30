@@ -1,6 +1,8 @@
 package com.airlines.mvc.service;
 
 
+import com.airlines.mvc.exception.AirlinesError;
+import com.airlines.mvc.exception.AirlinesException;
 import com.airlines.mvc.model.Ticket;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
@@ -29,15 +31,15 @@ public class TicketPDFGeneratorServiceImpl implements TicketPDFGeneratorService 
 
 
     @Override
-    public byte[] generatePDF(Long ticketId, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Optional<Ticket> ticket = ticketService.getTicket(ticketId);
+    public Optional<byte[]> generatePDF(Long ticketId, HttpServletRequest request, HttpServletResponse response)  {
+        Ticket ticket = ticketService.findById(ticketId);
 
-        System.out.println(ticket.get().toString());
+        System.out.println(ticket.toString());
 
         /* Create HTML using Thymeleaf template Engine */
 
         WebContext context = new WebContext(request, response, servletContext);
-        context.setVariable("ticket", ticket.get());
+        context.setVariable("ticket", ticket);
         String orderHtml = templateEngine.process("ticket", context);
 
         /* Setup Source and target I/O streams */
@@ -57,6 +59,6 @@ public class TicketPDFGeneratorServiceImpl implements TicketPDFGeneratorService 
 //        Files.write(bytes, new File("resources/template/ticket.pdf"));
 
 
-        return bytes;
+        return Optional.ofNullable(bytes);
     }
 }

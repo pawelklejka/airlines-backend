@@ -12,10 +12,15 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketId;
+    @Column(name = "TICKET_GATE")
     private String gate;
+    @Column(name = "TICKET_SEAT")
     private Long seat;
+    @Column(name = "TICKET_BOARDING_TIME")
     private LocalTime boardingTime;
-    private String codeBarQrBar; //TODO IMPLEMENT SERVICE THAT GENERATE QR OR BARCODE
+    @Column(name = "TICKET_QR_CODE")
+    @Lob
+    private Byte[] codeBarQrBar; //TODO IMPLEMENT SERVICE THAT GENERATE QR OR BARCODE
 
     public Ticket() {
 
@@ -51,11 +56,11 @@ public class Ticket {
         this.boardingTime = LocalTime.of(localTime.getHour(), localTime.getMinute()).minusMinutes(30);
     }
 
-    public String getCodeBarQrBar() {
+    public Byte[] getCodeBarQrBar() {
         return codeBarQrBar;
     }
 
-    public void setCodeBarQrBar(String codeBarQrBar) {
+    public void setCodeBarQrBar(Byte[] codeBarQrBar) {
         this.codeBarQrBar = codeBarQrBar;
     }
 
@@ -68,11 +73,11 @@ public class Ticket {
     }
 
     public Flight getFlightThatTouristIsIn() {
-        return flightThatTouristIsIn;
+        return flightBoundWithTourist;
     }
 
     public void setFlightThatTouristIsIn(Flight flightThatTouristIsIn) {
-        this.flightThatTouristIsIn = flightThatTouristIsIn;
+        this.flightBoundWithTourist = flightThatTouristIsIn;
     }
 
     public Long getSeat() {
@@ -106,19 +111,15 @@ public class Ticket {
 
 
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
     @JoinColumn(name = "flight_id")
     @JsonIgnore
-    private Flight flightThatTouristIsIn;
+    private Flight flightBoundWithTourist;
 
 
-    //sprobwac dac tutaj cascadetype remove czy usunie wszystkich klientow jezeli usuniemy caly lot
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
     @JoinColumn(name = "tourist_id")
     @JsonIgnore
     private Tourist touristInFlight;
-
-
-
 
 }

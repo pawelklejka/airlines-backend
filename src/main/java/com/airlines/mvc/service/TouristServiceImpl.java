@@ -4,12 +4,13 @@ import com.airlines.mvc.DTO.FlightDTO;
 import com.airlines.mvc.DTO.TouristDTO;
 import com.airlines.mvc.exception.AirlinesError;
 import com.airlines.mvc.exception.AirlinesException;
-import com.airlines.mvc.model.Flight;
 import com.airlines.mvc.model.Ticket;
 import com.airlines.mvc.model.Tourist;
 import com.airlines.mvc.repository.FlightRepository;
 import com.airlines.mvc.repository.TicketRepository;
 import com.airlines.mvc.repository.TouristRepository;
+import com.airlines.mvc.utils.DateParserService;
+import com.airlines.mvc.utils.DtoConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -41,14 +42,14 @@ public class TouristServiceImpl implements TouristService {
 
     @Override
     public void save(TouristDTO touristDTO) {
-        Tourist tourist = convertDtoToEntity(touristDTO);
+        Tourist tourist = DtoConverter.convertDtoToEntity(touristDTO);
         touristRepository.save(tourist);
     }
 
     @Override
     public void updateTourist(Long id, TouristDTO touristDTO) {
         Tourist currentTourist = touristRepository.findById(id).
-                map(tourist -> convertDtoToEntity(touristDTO))
+                map(tourist -> DtoConverter.convertDtoToEntity(touristDTO))
                 .orElseThrow(() -> new AirlinesException(AirlinesError.TOURIST_NOT_FOUND));
         touristRepository.save(currentTourist);
     }
@@ -87,16 +88,6 @@ public class TouristServiceImpl implements TouristService {
         touristRepository.deleteById(id);
     }
 
-    private Tourist convertDtoToEntity(TouristDTO touristDTO) {
-        Tourist tourist = new Tourist();
-        tourist.setName(touristDTO.getName());
-        tourist.setSurname(touristDTO.getSurname());
-        tourist.setEmail(touristDTO.getEmail());
-        tourist.setSex(touristDTO.getSex());
-        tourist.setCountry(touristDTO.getCountry());
-        tourist.setDateOfBirth(this.dateParserService.parseDateFromString(touristDTO.getDateOfBirth()));
-        tourist.setNotes(touristDTO.getNotes());
-        return tourist;
-    }
+
 
 }

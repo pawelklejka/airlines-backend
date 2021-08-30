@@ -9,19 +9,17 @@ import com.airlines.mvc.model.Ticket;
 import com.airlines.mvc.model.Tourist;
 import com.airlines.mvc.repository.FlightRepository;
 import com.airlines.mvc.repository.TouristRepository;
+import com.airlines.mvc.utils.DateParserService;
 import com.github.javafaker.Faker;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.management.Query;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -105,7 +103,7 @@ public class FlightServiceImplementation implements FlightService {
 
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         flightRepository.deleteById(id);
     }
 
@@ -126,7 +124,8 @@ public class FlightServiceImplementation implements FlightService {
 
             flight.setCapacity(capacity);
             flight.setStartingDestination(faker.country().capital());
-            flight.setFinalDestination("EARTH ORBIT");
+            flight.setFinalDestination(faker.country().capital());
+            if(flight.getStartingDestination().equals(flight.getFinalDestination())) flight.setFinalDestination(faker.country().capital());
             flight.setFlightStartingTime(LocalDateTime.of(year, month, day, hour, minute));
             flight.setFlightArrivalTime(LocalDateTime.of(year, month, day, hour + 3, minute + 15));
             flight.setPrice(new BigDecimal(BigInteger.valueOf(new Random().nextInt(100001)), 2));

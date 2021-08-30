@@ -31,7 +31,7 @@ public class Tourist {
 
     @NotBlank
     @Email
-    @Column(unique = true)
+    @Column(name = "TOURIST_EMAIL", unique = true)
     private String email;
 
     @Column(name = "TOURIST_SEX")
@@ -51,6 +51,10 @@ public class Tourist {
 
     @Column(name = "TOURIST_NOTES")
     private String notes;
+
+    public Tourist() {
+        this.tickets = new HashSet<>();
+    }
 
     public Long getId() {
         return touristId;
@@ -134,8 +138,10 @@ public class Tourist {
 
     }
 
-
-    //    mozliwe ze do usuniecia
+    @OneToMany(mappedBy = "touristInFlight", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    private Set<Ticket> tickets;
+}
+//    mozliwe ze do usuniecia
 //    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 //            CascadeType.REFRESH}, fetch = FetchType.LAZY
 //    )
@@ -147,7 +153,3 @@ public class Tourist {
 //    @MapKey(name = "flightId")
 //    @JsonIgnore
 //    private Map<Long, Flight> flights;
-
-    @OneToMany(mappedBy = "touristInFlight", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
-    private Set<Ticket> tickets;
-}

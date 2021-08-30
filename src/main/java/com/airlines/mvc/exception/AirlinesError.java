@@ -4,6 +4,7 @@ public enum AirlinesError {
     TOURIST_NOT_FOUND("Tourist not found in database"),
     FLIGHT_NOT_FOUND("Flight not found in database"),
     TICKET_NOT_FOUND("Ticket not found in database"),
+    CAN_NOT_GENERATE_PDF("Can not generate ticket pdf"),
     OUT_OF_FLIGHT_CAPACITY_ERROR("You can't add tourist because the maximum capacity is reached");
 
 

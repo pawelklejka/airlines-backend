@@ -1,12 +1,11 @@
 package com.airlines.mvc.service;
 
-import org.springframework.http.ResponseEntity;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 public interface TicketPDFGeneratorService {
 
-    byte[] generatePDF(Long touristId, HttpServletRequest request, HttpServletResponse response) throws IOException;
+    Optional<byte[]> generatePDF(Long touristId, HttpServletRequest request, HttpServletResponse response);
 }

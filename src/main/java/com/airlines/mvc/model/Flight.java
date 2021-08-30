@@ -26,11 +26,11 @@ public class Flight {
     @Column(name = "FLIGHT_ID")
     private Long flightId;
 
-    @Column(name = "STARTING_DESTINATION")
+    @Column(name = "FLIGHT_STARTING_DESTINATION")
     @NotBlank
     private String startingDestination;
 
-    @Column
+    @Column(name = "FLIGHT_FINAL_DESTINATION")
     @NotBlank
     private String finalDestination;
 
@@ -63,7 +63,7 @@ public class Flight {
 
 
     public Flight(){
-
+        this.tickets = new HashSet<>();
     }
 
 
@@ -180,7 +180,16 @@ public class Flight {
   }
 
 
-    //    możliwe że do usunięcia
+
+
+    @OneToMany(mappedBy = "flightBoundWithTourist", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    private Set<Ticket> tickets;
+
+
+}
+
+
+//    możliwe że do usunięcia
 //    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 //            CascadeType.REFRESH}, fetch = FetchType.LAZY
 //    )
@@ -192,10 +201,3 @@ public class Flight {
 //    @MapKey(name = "touristId")
 ////    @JsonIgnore
 //    private Map<Long, Tourist> tourists;
-
-
-    @OneToMany(mappedBy = "flightThatTouristIsIn", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, fetch = FetchType.LAZY)
-    private Set<Ticket> tickets;
-
-
-}

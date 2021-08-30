@@ -89,12 +89,4 @@ public class TouristController {
 
     }
 
-    @GetMapping("/send-mail")
-    public void sendMail() throws MessagingException {
-        mailService.sendMail(
-                "MatiKawaler96@o2.pl",
-                "siema eniu",
-                "<b> Wygrales starego wraz z pralka. Pozdrawiam </b>",
-                true);
-    }
 }

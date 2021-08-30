@@ -1,4 +1,4 @@
-package com.airlines.mvc.service;
+package com.airlines.mvc.utils;
 
 import org.springframework.stereotype.Service;
 
