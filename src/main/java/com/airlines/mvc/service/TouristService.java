@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public interface TouristService {
     Page<Tourist> findAll(Pageable pageable);
-    Optional<Tourist> findById(Long id);
+    Tourist findById(Long id);
     void save(TouristDTO touristDTO);
     void updateTourist(Long id, TouristDTO touristDTO);
-    void addFlightToTourist(Long id, FlightDTO flightDTO);
-    void deleteFlightFromTourist(Long touristId, Long flightId);
+    void addTicketToTourist(Long id, FlightDTO flightDTO);
+    void deleteTicketFromTourist(Long touristId, Long flightId);
     void deleteById(Long id);
 }

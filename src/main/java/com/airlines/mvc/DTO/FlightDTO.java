@@ -1,11 +1,7 @@
 package com.airlines.mvc.DTO;
 
 
-import javax.persistence.Column;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 
@@ -13,8 +9,11 @@ public class FlightDTO {
 
     private Long id;
 
-    @NotNull
+    @NotBlank
     private String startingDestination;
+
+    @NotBlank
+    private String finalDestination;
 
     @NotNull
     private String flightStartingTime;
@@ -22,7 +21,6 @@ public class FlightDTO {
     @NotNull
     private String flightArrivalTime;
 
-    @Column(name = "FLIGHT_CAPACITY")
     @NotNull
     @Min(10)
     @Max(20)
@@ -78,5 +76,13 @@ public class FlightDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFinalDestination() {
+        return finalDestination;
+    }
+
+    public void setFinalDestination(String finalDestination) {
+        this.finalDestination = finalDestination;
     }
 }

@@ -1,15 +1,21 @@
 package com.airlines.mvc.model;
 
 import com.airlines.mvc.DTO.TouristDTO;
+import com.airlines.mvc.exception.AirlinesError;
+import com.airlines.mvc.exception.AirlinesException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.thymeleaf.expression.Lists;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 //@Profile("flightControllerWebTest")
@@ -20,24 +26,24 @@ public class Flight {
     @Column(name = "FLIGHT_ID")
     private Long flightId;
 
-    @Column(name = "STARTING_DESTINATION")
-    @NotNull
+    @Column(name = "FLIGHT_STARTING_DESTINATION")
+    @NotBlank
     private String startingDestination;
 
-    @Column
-    @NotNull
+    @Column(name = "FLIGHT_FINAL_DESTINATION")
+    @NotBlank
     private String finalDestination;
 
 
     @Column(name = "FLIGHT_STARTING_TIME")
     @DateTimeFormat(pattern = "yyy-MM-dd hh:mm")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     @NotNull
     private LocalDateTime flightStartingTime;
 
     @Column(name = "FLIGHT_ARRIVAL_TIME")
     @DateTimeFormat(pattern = "yyy-MM-dd hh:mm")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     @NotNull
     private LocalDateTime flightArrivalTime;
 
@@ -57,7 +63,7 @@ public class Flight {
 
 
     public Flight(){
-
+        this.tickets = new HashSet<>();
     }
 
 
@@ -133,18 +139,18 @@ public class Flight {
         Ticket ticketForTourist = new Ticket();
         ticketForTourist.setFlightThatTouristIsIn(this);
         ticketForTourist.setTouristInFlight(tourist);
+        ticketForTourist.setBoardingTime(this.getFlightStartingTime());
+        ticketForTourist.setSeat(10l);
+        ticketForTourist.setGate("42");
         if(tickets == null){
             tickets = new HashSet<>();
         }else{
             if(tickets.size() <= capacity){
                 tickets.add(ticketForTourist);
-                System.out.println(tickets.size());
-            }else{
-                //TODO zrobic obsluge bledu gdy przekroczymy pojemnosc samolotu
             }
+            else throw new AirlinesException(AirlinesError.OUT_OF_FLIGHT_CAPACITY_ERROR);
 
         }
-        System.out.println(ticketForTourist.toString());
         this.setTouristAmount();
 
     }
@@ -174,7 +180,16 @@ public class Flight {
   }
 
 
-    //    możliwe że do usunięcia
+
+
+    @OneToMany(mappedBy = "flightBoundWithTourist", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    private Set<Ticket> tickets;
+
+
+}
+
+
+//    możliwe że do usunięcia
 //    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 //            CascadeType.REFRESH}, fetch = FetchType.LAZY
 //    )
@@ -186,10 +201,3 @@ public class Flight {
 //    @MapKey(name = "touristId")
 ////    @JsonIgnore
 //    private Map<Long, Tourist> tourists;
-
-
-    @OneToMany(mappedBy = "flightThatTouristIsIn", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, fetch = FetchType.LAZY)
-    private Set<Ticket> tickets;
-
-
-}

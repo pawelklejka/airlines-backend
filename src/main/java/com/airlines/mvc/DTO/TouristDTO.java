@@ -1,28 +1,34 @@
 package com.airlines.mvc.DTO;
 
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class TouristDTO {
 
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Size(max = 100)
     private String name;
 
-    @NotNull
+    @NotBlank
     @Size(max = 100)
     private String surname;
 
-    @NotNull
+    @NotBlank
+    @Email
+    private String email;
+
+    @NotBlank
     private String sex;
 
-    @NotNull
+    @NotBlank
     @Size(max = 75)
     private String country;
 
-    @NotNull
+    @NotBlank
     private String dateOfBirth;
 
     private String notes;
@@ -81,5 +87,13 @@ public class TouristDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
